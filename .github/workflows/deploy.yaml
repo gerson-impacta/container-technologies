@@ -34,6 +34,8 @@ jobs:
       - run: kubectl get pods -A
 
       - name: Render k8s manifest
+        env:
+          DOCKER_IMAGE: ${{needs.build-image.outputs.docker-image-ref}}
         run: |
           envsubst < app.template.yaml > deployment.yml
 
