@@ -3,11 +3,14 @@ name: build-image
 on:
   push:
     branches:
+      - deploy
       - develop
 
 jobs:
   build-image:
     runs-on: ubuntu-latest
+    outputs:
+      docker-image-ref: ${{ steps.docker-image.outputs.DOCKER-IMAGE }}
     defaults:
       run:
         working-directory: app
@@ -53,3 +56,10 @@ jobs:
       - name: Push image
         run: |
           docker image push ${{ secrets.DOCKERHUB_USERNAME }}/container-technologies:v${{ steps.calculate-version.outputs.version-string }}
+
+      - name: Docker image outputs
+        id: docker-image
+        run: echo "DOCKER-IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/container-technologies:v${{ steps.calculate-version.outputs.version-string }}" >> $GITHUB_OUTPUT 
+
+      - name: Display Docker image
+        run: echo "${{ steps.docker-image.outputs.DOCKER-IMAGE }}"
