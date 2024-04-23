@@ -36,7 +36,6 @@ jobs:
         uses: actions-hub/kubectl@master
         with:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
-        with:
           args: get pods -A
 
       - name: Deploy application
