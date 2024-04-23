@@ -38,6 +38,6 @@ jobs:
           DOCKER_IMAGE: ${{needs.build-image.outputs.docker-image-ref}}
         with:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
-        run: |
+      - run: |
           envsubst < app.template.yaml > deployment.yml
           kubectl apply -f deployment.yml
