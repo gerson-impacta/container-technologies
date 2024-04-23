@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
       - name: container-technologies
-        image: ${DOCKER-IMAGE}
+        image: $DOCKER_IMAGE
         ports:
         - containerPort: 80
         resources:
