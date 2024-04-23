@@ -32,13 +32,7 @@ jobs:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
       - run: kubectl get pods -A
 
-      - name: List all pods
-        uses: actions-hub/kubectl@master
+      - uses: tale/kubectl-action@v1
         with:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
-          args: get pods -A
-
-      - name: Deploy application
-        uses: actions-hub/kubectl@master
-        with:
-          args: create -f app.yaml
+      - run: kubectl create -f app.yaml
