@@ -3,6 +3,7 @@ name: build-image
 on:
   push:
     branches:
+      - deploy
       - develop
 
 jobs:
@@ -53,3 +54,10 @@ jobs:
       - name: Push image
         run: |
           docker image push ${{ secrets.DOCKERHUB_USERNAME }}/container-technologies:v${{ steps.calculate-version.outputs.version-string }}
+
+      - name: Docker image outputs
+        id: docker-image
+        run: echo "DOCKER-IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/container-technologies:v${{ steps.calculate-version.outputs.version-string }}" >> $GITHUB_OUTPUT 
+
+      - name: Get IP Address
+        run: echo "${{ steps.docker-image.outputs.DOCKER-IMAGE }}"

@@ -35,4 +35,4 @@ jobs:
       - uses: tale/kubectl-action@v1
         with:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
-      - run: kubectl create -f app.yaml
+      - run: kubectl apply -f app.yaml
