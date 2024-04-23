@@ -9,6 +9,8 @@ on:
 jobs:
   build-image:
     runs-on: ubuntu-latest
+    outputs:
+      docker-image-ref: ${{ steps.docker-image.outputs.DOCKER-IMAGE }}
     defaults:
       run:
         working-directory: app
@@ -59,5 +61,5 @@ jobs:
         id: docker-image
         run: echo "DOCKER-IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/container-technologies:v${{ steps.calculate-version.outputs.version-string }}" >> $GITHUB_OUTPUT 
 
-      - name: Get IP Address
+      - name: Display Docker image
         run: echo "${{ steps.docker-image.outputs.DOCKER-IMAGE }}"
