@@ -34,7 +34,7 @@ jobs:
 
       - uses: tale/kubectl-action@v1
         env:
-          DOCKER-IMAGE: ${{needs.build-image.outputs.docker-image-ref}}
+          DOCKER_IMAGE: ${{needs.build-image.outputs.docker-image-ref}}
         with:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
       - run: kubectl apply -f app.yaml
