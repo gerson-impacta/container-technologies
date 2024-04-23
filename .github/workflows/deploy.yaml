@@ -27,14 +27,17 @@ jobs:
 
       - name: Update KubeConfig
         run: echo KUBE_CONFIG=$(aws eks update-kubeconfig --region us-east-1 --name eks-lab --dry-run | base64) >> $GITHUB_ENV
+
       - uses: tale/kubectl-action@v1
         with:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
       - run: kubectl get pods -A
 
-      - uses: tale/kubectl-action@v1
+      - name: Render k8s manifests
         env:
           DOCKER_IMAGE: ${{needs.build-image.outputs.docker-image-ref}}
         with:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
-      - run: kubectl apply -f app.yaml
+        run: envsubst < app.template.yml > deployment.yml 
+
+      - run: kubectl apply -f deployment.yml
