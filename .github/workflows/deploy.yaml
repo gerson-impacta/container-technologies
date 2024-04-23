@@ -33,11 +33,11 @@ jobs:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
       - run: kubectl get pods -A
 
-      - name: Render k8s manifests
+      - name: Render k8s manifest and deploy
         env:
           DOCKER_IMAGE: ${{needs.build-image.outputs.docker-image-ref}}
         with:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
-        run: envsubst < app.template.yml > deployment.yml 
-
-      - run: kubectl apply -f deployment.yml
+      - run: |
+          envsubst < app.template.yaml > deployment.yml
+          kubectl apply -f deployment.yml
