@@ -39,5 +39,5 @@ jobs:
         with:
           base64-kube-config: ${{ env.KUBE_CONFIG }}
         run: |
-          envsubst < app.template.yml > deployment.yml
+          envsubst < app.template.yaml > deployment.yml
           kubectl apply -f deployment.yml
