@@ -25,8 +25,11 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
           aws-region: ${{env.AWS_REGION}}
 
-      - name: Update context kubectl
-        run: aws eks update-kubeconfig --region us-east-1 --name eks-lab
+      - name: Update KubeConfig
+        run: | 
+              mkdir -p $HOME/.kube
+              echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
+              aws eks update-kubeconfig --region us-east-1 --name eks-lab
 
       - name: List all pods
         uses: actions-hub/kubectl@master
